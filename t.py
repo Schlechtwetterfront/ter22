@@ -1,5 +1,11 @@
-import zeter
+import ter22
 
-terrain = zeter.Terrain.load('dag1.ter')
+terrain = ter22.Terrain.load('geo1.ter')
 
-terrain.save('dag2.ter')
+print terrain.map_extents
+print terrain.map_size
+print terrain.unknown[2]
+print terrain.unknown[3]
+print terrain.unknown[3]
+
+#terrain.save('dag2.ter')
