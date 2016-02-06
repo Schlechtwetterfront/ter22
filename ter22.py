@@ -174,8 +174,8 @@ class Terrain(Packer):
         self.foliage = []
         self.unknown = []
 
-        self.texture_layers = [TextureLayer() for n in xrange(16)]
-        self.water_infos = [WaterLayer() for n in xrange(16)]
+        self.texture_layers = [TextureLayer() for n in range(16)]
+        self.water_infos = [WaterLayer() for n in range(16)]
 
     def pack(self):
         for layer in self.texture_layers:
@@ -247,9 +247,9 @@ class Terrain(Packer):
             t.ter_ver = r.l()
             t.map_extents = unpack('<hhhh', r.r(8))
             t.unknown.append(r.l())
-            for n in xrange(16):
+            for n in range(16):
                 t.texture_layers[n].tile_range = r.f()
-            for n in xrange(16):
+            for n in range(16):
                 t.texture_layers[n].mapping = r.b()
             t.unknown.append(r.r(64))
             t.map_height = r.f()
@@ -258,11 +258,11 @@ class Terrain(Packer):
             t.map_size = r.l()
             t.unknown.append(r.l())
             t.unknown.append(r.b())
-            for n in xrange(16):
-                t.texture_layers[n].texture = r.r(32).strip('\x00')
-                t.texture_layers[n].detail_texture = r.r(32).strip('\x00')
+            for n in range(16):
+                t.texture_layers[n].texture = r.r(32).strip(b'\x00')
+                t.texture_layers[n].detail_texture = r.r(32).strip(b'\x00')
             #i('?', r.r(68))
-            for n in xrange(16):
+            for n in range(16):
                 water = t.water_infos[n]
                 water.height = r.f(), r.f()
                 water.unknown = r.l(), r.l()
@@ -274,42 +274,42 @@ class Terrain(Packer):
 
             # Height
             heights = []
-            for n in xrange(t.map_size):
+            for n in range(t.map_size):
                 heights.append(r.c('h', t.map_size, 2 * t.map_size))
             t.heights = heights
 
             colors = []
-            for n in xrange(t.map_size):
+            for n in range(t.map_size):
                 row = []
-                for i in xrange(t.map_size):
+                for i in range(t.map_size):
                     row.append(Color(r.b(), r.b(), r.b(), r.b()))
                 colors.append(row)
             t.colors = colors
 
             colors2 = []
-            for n in xrange(t.map_size):
+            for n in range(t.map_size):
                 row2 = []
-                for i in xrange(t.map_size):
+                for i in range(t.map_size):
                     row2.append(Color(r.b(), r.b(), r.b(), r.b()))
                 colors2.append(row)
             t.colors2 = colors2
 
             textures = []
-            for n in xrange(t.map_size):
+            for n in range(t.map_size):
                 row = []
-                for i in xrange(t.map_size):
+                for i in range(t.map_size):
                     row.append(TextureAlphas(r.c('B', 16, 16)))
                 textures.append(row)
             t.textures = textures
 
             water = []
-            for n in xrange(t.map_size):
+            for n in range(t.map_size):
                 water_inst = Water()
-                water_inst.data = r.r(t.map_size / 2)
+                water_inst.data = r.r(int(t.map_size / 2))
                 water.append(water_inst)
             t.water = water
 
-            foliage = r.r(t.map_size * t.map_size / 2)
+            foliage = r.r(int(t.map_size * t.map_size / 2))
             t.foliage = foliage
 
             return t

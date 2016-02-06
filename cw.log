@@ -1,0 +1,224 @@
+INFO (13, test_types):   0 /    0:             1152 /   1.6142958309021893e-42
+INFO (13, test_types):   1 /    4:                3 /    4.203895392974451e-45
+INFO (13, test_types):   2 /    8:             1024 /   1.4349296274686127e-42
+INFO (13, test_types):   3 /   12:              257 /     3.60133705331478e-43
+INFO (13, test_types):   4 /   16:                2 /    2.802596928649634e-45
+INFO (13, test_types):   5 /   20:       1107296256 /                     32.0
+INFO (13, test_types):   6 /   24:       1036831949 /      0.10000000149011612
+INFO (13, test_types):   7 /   28:       4294967168 /                      nan
+INFO (13, test_types):   8 /   32:              128 /    1.793662034335766e-43
+INFO (13, test_types):   9 /   36:       4294967168 /                      nan
+INFO (13, test_types):  10 /   40:              128 /    1.793662034335766e-43
+INFO (13, test_types):  11 /   44:                0 /                      0.0
+INFO (13, test_types):  12 /   48:                0 /                      0.0
+INFO (13, test_types):  13 /   52:                0 /                      0.0
+INFO (13, test_types):  14 /   56:                0 /                      0.0
+INFO (13, test_types):  15 /   60:                0 /                      0.0
+INFO (13, test_types):  16 /   64:       1015021568 /                 0.015625
+INFO (13, test_types):  17 /   68:       1006632960 /                0.0078125
+INFO (13, test_types):  18 /   72:       1006632960 /                0.0078125
+INFO (13, test_types):  19 /   76:       1006632960 /                0.0078125
+INFO (13, test_types):  20 /   80:       1015021568 /                 0.015625
+INFO (13, test_types):  21 /   84:       1006632960 /                0.0078125
+INFO (13, test_types):  22 /   88:       1006632960 /                0.0078125
+INFO (13, test_types):  23 /   92:       1015021568 /                 0.015625
+INFO (13, test_types):  24 /   96:       1023410176 /                  0.03125
+INFO (13, test_types):  25 /  100:       1023410176 /                  0.03125
+INFO (13, test_types):  26 /  104:       1023410176 /                  0.03125
+INFO (13, test_types):  27 /  108:       1023410176 /                  0.03125
+INFO (13, test_types):  28 /  112:       1023410176 /                  0.03125
+INFO (13, test_types):  29 /  116:       1023410176 /                  0.03125
+INFO (13, test_types):  30 /  120:        998244352 /               0.00390625
+INFO (13, test_types):  31 /  124:        998244352 /               0.00390625
+INFO (18, test_types):   0 /    0:             1152 /             1152
+INFO (18, test_types):   1 /    2:                0 /                0
+INFO (18, test_types):   2 /    4:                3 /                3
+INFO (18, test_types):   3 /    6:                0 /                0
+INFO (18, test_types):   4 /    8:             1024 /             1024
+INFO (18, test_types):   5 /   10:                0 /                0
+INFO (18, test_types):   6 /   12:              257 /              257
+INFO (18, test_types):   7 /   14:                0 /                0
+INFO (18, test_types):   8 /   16:                2 /                2
+INFO (18, test_types):   9 /   18:                0 /                0
+INFO (18, test_types):  10 /   20:                0 /                0
+INFO (18, test_types):  11 /   22:            16896 /            16896
+INFO (18, test_types):  12 /   24:           -13107 /            52429
+INFO (18, test_types):  13 /   26:            15820 /            15820
+INFO (18, test_types):  14 /   28:             -128 /            65408
+INFO (18, test_types):  15 /   30:               -1 /            65535
+INFO (18, test_types):  16 /   32:              128 /              128
+INFO (18, test_types):  17 /   34:                0 /                0
+INFO (18, test_types):  18 /   36:             -128 /            65408
+INFO (18, test_types):  19 /   38:               -1 /            65535
+INFO (18, test_types):  20 /   40:              128 /              128
+INFO (18, test_types):  21 /   42:                0 /                0
+INFO (18, test_types):  22 /   44:                0 /                0
+INFO (18, test_types):  23 /   46:                0 /                0
+INFO (18, test_types):  24 /   48:                0 /                0
+INFO (18, test_types):  25 /   50:                0 /                0
+INFO (18, test_types):  26 /   52:                0 /                0
+INFO (18, test_types):  27 /   54:                0 /                0
+INFO (18, test_types):  28 /   56:                0 /                0
+INFO (18, test_types):  29 /   58:                0 /                0
+INFO (18, test_types):  30 /   60:                0 /                0
+INFO (18, test_types):  31 /   62:                0 /                0
+INFO (18, test_types):  32 /   64:                0 /                0
+INFO (18, test_types):  33 /   66:            15488 /            15488
+INFO (18, test_types):  34 /   68:                0 /                0
+INFO (18, test_types):  35 /   70:            15360 /            15360
+INFO (18, test_types):  36 /   72:                0 /                0
+INFO (18, test_types):  37 /   74:            15360 /            15360
+INFO (18, test_types):  38 /   76:                0 /                0
+INFO (18, test_types):  39 /   78:            15360 /            15360
+INFO (18, test_types):  40 /   80:                0 /                0
+INFO (18, test_types):  41 /   82:            15488 /            15488
+INFO (18, test_types):  42 /   84:                0 /                0
+INFO (18, test_types):  43 /   86:            15360 /            15360
+INFO (18, test_types):  44 /   88:                0 /                0
+INFO (18, test_types):  45 /   90:            15360 /            15360
+INFO (18, test_types):  46 /   92:                0 /                0
+INFO (18, test_types):  47 /   94:            15488 /            15488
+INFO (18, test_types):  48 /   96:                0 /                0
+INFO (18, test_types):  49 /   98:            15616 /            15616
+INFO (18, test_types):  50 /  100:                0 /                0
+INFO (18, test_types):  51 /  102:            15616 /            15616
+INFO (18, test_types):  52 /  104:                0 /                0
+INFO (18, test_types):  53 /  106:            15616 /            15616
+INFO (18, test_types):  54 /  108:                0 /                0
+INFO (18, test_types):  55 /  110:            15616 /            15616
+INFO (18, test_types):  56 /  112:                0 /                0
+INFO (18, test_types):  57 /  114:            15616 /            15616
+INFO (18, test_types):  58 /  116:                0 /                0
+INFO (18, test_types):  59 /  118:            15616 /            15616
+INFO (18, test_types):  60 /  120:                0 /                0
+INFO (18, test_types):  61 /  122:            15232 /            15232
+INFO (18, test_types):  62 /  124:                0 /                0
+INFO (18, test_types):  63 /  126:            15232 /            15232
+INFO (23, test_types):   0 /    0:              128
+INFO (23, test_types):   1 /    1:                4
+INFO (23, test_types):   2 /    2:                0
+INFO (23, test_types):   3 /    3:                0
+INFO (23, test_types):   4 /    4:                3
+INFO (23, test_types):   5 /    5:                0
+INFO (23, test_types):   6 /    6:                0
+INFO (23, test_types):   7 /    7:                0
+INFO (23, test_types):   8 /    8:                0
+INFO (23, test_types):   9 /    9:                4
+INFO (23, test_types):  10 /   10:                0
+INFO (23, test_types):  11 /   11:                0
+INFO (23, test_types):  12 /   12:                1
+INFO (23, test_types):  13 /   13:                1
+INFO (23, test_types):  14 /   14:                0
+INFO (23, test_types):  15 /   15:                0
+INFO (23, test_types):  16 /   16:                2
+INFO (23, test_types):  17 /   17:                0
+INFO (23, test_types):  18 /   18:                0
+INFO (23, test_types):  19 /   19:                0
+INFO (23, test_types):  20 /   20:                0
+INFO (23, test_types):  21 /   21:                0
+INFO (23, test_types):  22 /   22:                0
+INFO (23, test_types):  23 /   23:               66
+INFO (23, test_types):  24 /   24:              205
+INFO (23, test_types):  25 /   25:              204
+INFO (23, test_types):  26 /   26:              204
+INFO (23, test_types):  27 /   27:               61
+INFO (23, test_types):  28 /   28:              128
+INFO (23, test_types):  29 /   29:              255
+INFO (23, test_types):  30 /   30:              255
+INFO (23, test_types):  31 /   31:              255
+INFO (23, test_types):  32 /   32:              128
+INFO (23, test_types):  33 /   33:                0
+INFO (23, test_types):  34 /   34:                0
+INFO (23, test_types):  35 /   35:                0
+INFO (23, test_types):  36 /   36:              128
+INFO (23, test_types):  37 /   37:              255
+INFO (23, test_types):  38 /   38:              255
+INFO (23, test_types):  39 /   39:              255
+INFO (23, test_types):  40 /   40:              128
+INFO (23, test_types):  41 /   41:                0
+INFO (23, test_types):  42 /   42:                0
+INFO (23, test_types):  43 /   43:                0
+INFO (23, test_types):  44 /   44:                0
+INFO (23, test_types):  45 /   45:                0
+INFO (23, test_types):  46 /   46:                0
+INFO (23, test_types):  47 /   47:                0
+INFO (23, test_types):  48 /   48:                0
+INFO (23, test_types):  49 /   49:                0
+INFO (23, test_types):  50 /   50:                0
+INFO (23, test_types):  51 /   51:                0
+INFO (23, test_types):  52 /   52:                0
+INFO (23, test_types):  53 /   53:                0
+INFO (23, test_types):  54 /   54:                0
+INFO (23, test_types):  55 /   55:                0
+INFO (23, test_types):  56 /   56:                0
+INFO (23, test_types):  57 /   57:                0
+INFO (23, test_types):  58 /   58:                0
+INFO (23, test_types):  59 /   59:                0
+INFO (23, test_types):  60 /   60:                0
+INFO (23, test_types):  61 /   61:                0
+INFO (23, test_types):  62 /   62:                0
+INFO (23, test_types):  63 /   63:                0
+INFO (23, test_types):  64 /   64:                0
+INFO (23, test_types):  65 /   65:                0
+INFO (23, test_types):  66 /   66:              128
+INFO (23, test_types):  67 /   67:               60
+INFO (23, test_types):  68 /   68:                0
+INFO (23, test_types):  69 /   69:                0
+INFO (23, test_types):  70 /   70:                0
+INFO (23, test_types):  71 /   71:               60
+INFO (23, test_types):  72 /   72:                0
+INFO (23, test_types):  73 /   73:                0
+INFO (23, test_types):  74 /   74:                0
+INFO (23, test_types):  75 /   75:               60
+INFO (23, test_types):  76 /   76:                0
+INFO (23, test_types):  77 /   77:                0
+INFO (23, test_types):  78 /   78:                0
+INFO (23, test_types):  79 /   79:               60
+INFO (23, test_types):  80 /   80:                0
+INFO (23, test_types):  81 /   81:                0
+INFO (23, test_types):  82 /   82:              128
+INFO (23, test_types):  83 /   83:               60
+INFO (23, test_types):  84 /   84:                0
+INFO (23, test_types):  85 /   85:                0
+INFO (23, test_types):  86 /   86:                0
+INFO (23, test_types):  87 /   87:               60
+INFO (23, test_types):  88 /   88:                0
+INFO (23, test_types):  89 /   89:                0
+INFO (23, test_types):  90 /   90:                0
+INFO (23, test_types):  91 /   91:               60
+INFO (23, test_types):  92 /   92:                0
+INFO (23, test_types):  93 /   93:                0
+INFO (23, test_types):  94 /   94:              128
+INFO (23, test_types):  95 /   95:               60
+INFO (23, test_types):  96 /   96:                0
+INFO (23, test_types):  97 /   97:                0
+INFO (23, test_types):  98 /   98:                0
+INFO (23, test_types):  99 /   99:               61
+INFO (23, test_types): 100 /  100:                0
+INFO (23, test_types): 101 /  101:                0
+INFO (23, test_types): 102 /  102:                0
+INFO (23, test_types): 103 /  103:               61
+INFO (23, test_types): 104 /  104:                0
+INFO (23, test_types): 105 /  105:                0
+INFO (23, test_types): 106 /  106:                0
+INFO (23, test_types): 107 /  107:               61
+INFO (23, test_types): 108 /  108:                0
+INFO (23, test_types): 109 /  109:                0
+INFO (23, test_types): 110 /  110:                0
+INFO (23, test_types): 111 /  111:               61
+INFO (23, test_types): 112 /  112:                0
+INFO (23, test_types): 113 /  113:                0
+INFO (23, test_types): 114 /  114:                0
+INFO (23, test_types): 115 /  115:               61
+INFO (23, test_types): 116 /  116:                0
+INFO (23, test_types): 117 /  117:                0
+INFO (23, test_types): 118 /  118:                0
+INFO (23, test_types): 119 /  119:               61
+INFO (23, test_types): 120 /  120:                0
+INFO (23, test_types): 121 /  121:                0
+INFO (23, test_types): 122 /  122:              128
+INFO (23, test_types): 123 /  123:               59
+INFO (23, test_types): 124 /  124:                0
+INFO (23, test_types): 125 /  125:                0
+INFO (23, test_types): 126 /  126:              128
+INFO (23, test_types): 127 /  127:               59

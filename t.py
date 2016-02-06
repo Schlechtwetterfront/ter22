@@ -1,11 +1,27 @@
 import ter22
+import logging
 
-terrain = ter22.Terrain.load('geo1.ter')
 
-print terrain.map_extents
-print terrain.map_size
-print terrain.unknown[2]
-print terrain.unknown[3]
-print terrain.unknown[3]
+PRINT_FIELDS = [
+	'ter_ver',
+	'map_extents',
+	'unknown',
+	'map_height',
+	'grid_size',
+	'map_size',
+]
 
-#terrain.save('dag2.ter')
+
+
+
+
+def load(filename):
+	terrain = ter22.Terrain.load(filename)
+
+	logging.info('\n---\n{}'.format(filename))
+	for field in PRINT_FIELDS:
+		logging.info('{}: {}'.format(field, getattr(terrain, field)))
+
+
+load('kashyyyk3.xxw')
+load('geo1.ter')
