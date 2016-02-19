@@ -1,4 +1,4 @@
-INFO (8, i): <ter22.Terrain object at 0x0199CB50> data size before 1676148
+INFO (8, i): <ter22.Terrain object at 0x026EFCD0> data size before 1676148
 INFO (21, load): 
 ---
 kashyyyk3.xxw
@@ -8,7 +8,7 @@ INFO (23, load): unknown: [2, b'\x00\x00\x00=\x00\x00\x00=\x00\x00\x00=\x00\x00\
 INFO (23, load): map_height: 1.8056946957705663e+28
 INFO (23, load): grid_size: 5.521134720390013e+31
 INFO (23, load): map_size: 0
-INFO (8, i): <ter22.Terrain object at 0x0199CB50> data size before 2529713
+INFO (8, i): <ter22.Terrain object at 0x026EFCD0> data size before 2529713
 INFO (21, load): 
 ---
 geo1.ter
