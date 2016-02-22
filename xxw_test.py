@@ -1,5 +1,6 @@
 from struct import unpack, pack
 import logging
+import ter03
 logging.basicConfig(format='%(message)s',
                     filename='cw.log',
                     filemode='w',
@@ -59,6 +60,11 @@ def test_heights(stride, type_string):
             logging.info(unpack(type_string, filehandle.read(stride))[0])
 
 
+def to_obj(file_index=0):
+    t = ter03.Terrain.load(FILENAMES[file_index])
+    t.save_as_obj('test.obj')
+
+
 if __name__ == '__main__':
     # test_types2(4, '<L')
     # test_types2(4, '<l')
@@ -73,4 +79,6 @@ if __name__ == '__main__':
     # test_heights(4, '<l')
     # test_heights(2, '<h')
     # test_heights(2, '<H')
-    test_heights(1, '<b')
+    # test_heights(1, '<b')
+
+    to_obj(1)

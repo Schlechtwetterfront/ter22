@@ -1,6 +1,10 @@
 '''ZeroEngine The Clone Wars Terrain.'''
 import struct
 import logging
+import ntpath
+
+
+MSG_TO_OBJ = '# Converted "{}" from Star Wars: The Clone Wars terrain with github.com/Schlechtwetterfront/ter22.\n\n'
 
 
 class Unpacker(object):
@@ -28,6 +32,8 @@ class TextureLayer(object):
 class Terrain(object):
     '''ZeroEngine (TCW branch) terrain.'''
     def __init__(self):
+        self.name = ''
+
         self.format_version = 3
         self.size = 0
         self.grid_scale = 32.0
@@ -38,10 +44,42 @@ class Terrain(object):
 
         self.heights = []
 
+        self.coordinate_scale = 0.5
+
+    def get_heights_as_coordinates(self):
+        coordinates = []
+        for index, height in enumerate(self.heights):
+            row = index / self.size
+            column = index % self.size
+            x = column * self.grid_scale * self.coordinate_scale
+            y = height * self.height_scale * self.coordinate_scale
+            z = row * self.grid_scale * self.coordinate_scale
+            coordinates.append((x, y, z))
+        return coordinates
+
+    def save_as_obj(self, filepath):
+        '''Save the terrain geometry in .obj format.'''
+        with open(filepath, 'w') as filehandle:
+            write = filehandle.write
+            write(MSG_TO_OBJ.format(self.name))
+            number_of_rows = int(len(self.heights) / self.size)
+            for coordinate in self.get_heights_as_coordinates():
+                write('v {} {} {}\n'.format(*coordinate))
+            for row_index in range(number_of_rows - 1):
+                for column in range(self.size - 1):
+                    indices = (column + row_index * self.size + 1,
+                               column + row_index * self.size + 2,
+                               column + (row_index + 1) * self.size + 2,
+                               column + (row_index + 1) * self.size + 1
+                              )
+                    write('f {} {} {} {}\n'.format(*indices))
+
     @classmethod
     def load(cls, filepath):
         '''Load a Terrain from _filepath_.'''
         terrain = cls()
+
+        terrain.name = ntpath.basename(filepath)
 
         with open(filepath, 'rb') as filehandle:
             unpacker = Unpacker(filehandle)
@@ -68,5 +106,7 @@ class Terrain(object):
             for n in range(terrain.size * terrain.size):
                 heights.append(parse(2, '<h'))
             terrain.heights = heights
+
+        return terrain
 
 
