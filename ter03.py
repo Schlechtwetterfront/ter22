@@ -1,7 +1,17 @@
-'''ZeroEngine The Clone Wars Terrain.'''
+'''
+   ZeroEngine The Clone Wars Terrain.
+   Refer to schlechtwetterfront.github.io/ze_filetypes/xxw.html for more
+   information regarding the file format.
+'''
 import struct
 import logging
 import ntpath
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('input_file', help='Input file path.')
+parser.add_argument('output_file', help='Output file path.')
+parser.add_argument('output_type', help='Output file type (obj).')
 
 
 MSG_TO_OBJ = '# Converted "{}" from Star Wars: The Clone Wars terrain with github.com/Schlechtwetterfront/ter22.\n\n'
@@ -47,6 +57,7 @@ class Terrain(object):
         self.coordinate_scale = 0.5
 
     def get_heights_as_coordinates(self):
+        '''Converts height grid data into 3D coordinates.'''
         coordinates = []
         for index, height in enumerate(self.heights):
             row = index / self.size
@@ -86,7 +97,7 @@ class Terrain(object):
             parse = unpacker.parse
             read = filehandle.read
 
-            read(4) # Unknown
+            read(4) # Header size indicator.
             terrain.format_version = parse(4, '<L')
             read(4) # Unknown
             terrain.size = parse(4, '<L')
@@ -103,10 +114,35 @@ class Terrain(object):
 
             # Heights
             heights = []
-            for n in range(terrain.size * terrain.size):
+            for _ in range(terrain.size * terrain.size):
                 heights.append(parse(2, '<h'))
             terrain.heights = heights
 
         return terrain
 
+
+def convert():
+    '''Convert a .xxw file to .obj/.ter.'''
+    arguments = parser.parse_args()
+    input_file = arguments.input_file
+    output_file = arguments.output_file
+    output_type = arguments.output_type
+
+    print('Converting from "{}" to "{}" with type "{}".'.format(input_file,
+                                                                output_file,
+                                                                output_type))
+
+    terrain = Terrain.load(input_file)
+    if output_type == 'obj':
+        terrain.save_as_obj(output_file)
+        print('Finished converting.')
+    elif output_type == 'ter':
+        print('.ter export is not supported yet.')
+    else:
+        print('Invalid output type "{}".'.format(output_type))
+
+
+
+if __name__ == '__main__':
+    convert()
 
