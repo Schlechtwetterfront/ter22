@@ -6,10 +6,14 @@ logging.basicConfig(format='%(message)s',
                     filemode='w',
                     level=logging.DEBUG)
 
-FILENAMES = ('geonosis1.xxw', 'geonosis3.xxw', 'kashyyyk3.xxw', 'multi1.xxw',
-             'multi2.xxw', 'multi3.xxw', 'multi4.xxw', 'multi5.xxw', 'multi6.xxw',
-             'multi8.xxw', 'multi9.xxw', 'multi10.xxw', 'multi12.xxw',
-             'multi13.xxw', 'multi14.xxw', 'multi15.xxw', 'multi17.xxw'
+FILENAMES = ('samples/geonosis1.xxw', 'samples/geonosis3.xxw',
+             'samples/kashyyyk3.xxw', 'samples/multi1.xxw',
+             'samples/multi2.xxw', 'samples/multi3.xxw',
+             'samples/multi4.xxw', 'samples/multi5.xxw', 'samples/multi6.xxw',
+             'samples/multi8.xxw', 'samples/multi9.xxw',
+             'samples/multi10.xxw', 'samples/multi12.xxw',
+             'samples/multi13.xxw', 'samples/multi14.xxw',
+             'samples/multi15.xxw', 'samples/multi17.xxw'
             )
 
 def test_types():

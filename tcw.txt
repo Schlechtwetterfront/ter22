@@ -1,5 +1,0 @@
-HEADER
-	128 BYTES
-TEXTURE
-	1540 Bytes
-	32-Byte Texture slots

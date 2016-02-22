@@ -3,8 +3,8 @@
    Refer to schlechtwetterfront.github.io/ze_filetypes/xxw.html for more
    information regarding the file format.
 '''
+
 import struct
-import logging
 import ntpath
 import argparse
 
@@ -68,8 +68,27 @@ class Terrain(object):
             coordinates.append((x, y, z))
         return coordinates
 
+    def save(self, filepath, output_type='xxw'):
+        '''Save this terrain to _filepath_ as _output_type_.'''
+        if 'obj' in output_type:
+            self.save_as_obj(filepath)
+        elif 'ter' in output_type:
+            self.save_as_ter(filepath)
+        elif 'xxw' in output_type:
+            self.save_as_xxw(filepath)
+        else:
+            print('Invalid output type "{}".'.format(output_type))
+
+    def save_as_xxw(self, filepath):
+        '''Save the terrain to _filepath_ in .xxw format.'''
+        print('.XXW saving is not supported yet.')
+
+    def save_as_ter(self, filepath):
+        '''Save the terrain to _filepath_ in .ter format.'''
+        print('.TER saving is not supported yet.')
+
     def save_as_obj(self, filepath):
-        '''Save the terrain geometry in .obj format.'''
+        '''Save the terrain to _filepath_ in .obj format.'''
         with open(filepath, 'w') as filehandle:
             write = filehandle.write
             write(MSG_TO_OBJ.format(self.name))
@@ -122,7 +141,7 @@ class Terrain(object):
 
 
 def convert():
-    '''Convert a .xxw file to .obj/.ter.'''
+    '''Convert a .xxw file.'''
     arguments = parser.parse_args()
     input_file = arguments.input_file
     output_file = arguments.output_file
@@ -133,13 +152,8 @@ def convert():
                                                                 output_type))
 
     terrain = Terrain.load(input_file)
-    if output_type == 'obj':
-        terrain.save_as_obj(output_file)
-        print('Finished converting.')
-    elif output_type == 'ter':
-        print('.ter export is not supported yet.')
-    else:
-        print('Invalid output type "{}".'.format(output_type))
+    terrain.save(output_file, output_type)
+    print('Finished converting.')
 
 
 
