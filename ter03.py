@@ -14,7 +14,13 @@ parser.add_argument('output_file', help='Output file path.')
 parser.add_argument('output_type', help='Output file type (obj).')
 
 
-MSG_TO_OBJ = '# Converted "{}" from Star Wars: The Clone Wars terrain with github.com/Schlechtwetterfront/ter22.\n\n'
+
+TERRAIN_UNKNOWN = 0
+TERRAIN_XXW = 3
+TERRAIN_TER_1 = 21
+TERRAIN_TER_2 = 22
+
+MSG_TO_OBJ = '# Converted "{}" from ZeroEngine terrain with github.com/Schlechtwetterfront/ter22.\n\n'
 
 
 class Unpacker(object):
@@ -31,6 +37,27 @@ class Unpacker(object):
             return struct.unpack(type_string, self.filehandle.read(size * length))
 
 
+class Color(object):
+    def __init__(self, r=0, g=0, b=0, a=1, recalculate=False):
+        self.r = r
+        self.g = g
+        self.b = b
+        self.a = a
+        if recalculate:
+            self.recalculate()
+
+    @property
+    def rgba(self):
+        return self.r, self.g, self.b, self.a
+
+    def recalculate(self):
+        self.r = self.r / 255
+        self.g = self.g / 255
+        self.b = self.b / 255
+        self.a = self.a / 255
+    
+
+
 class TextureLayer(object):
     '''Texture layer.'''
     def __init__(self, color_map='', detail_map=''):
@@ -38,9 +65,22 @@ class TextureLayer(object):
         self.detail_map = detail_map
         self.tile_range = 1.0
 
+        self.mapping = 0
+
+
+class WaterLayer(object):
+    def __init__(self):
+        self.height = .0, .0
+        self.unknown = 0, 0
+        self.animation_velocity = .0, .0
+        self.animation_repeat = .0, .0
+        self.color = Color()
+        self.texture = ''
+
 
 class Terrain(object):
-    '''ZeroEngine (TCW branch) terrain.'''
+    '''ZeroEngine generic terrain.'''
+
     def __init__(self):
         self.name = ''
 
@@ -103,6 +143,91 @@ class Terrain(object):
                                column + (row_index + 1) * self.size + 1
                               )
                     write('f {} {} {} {}\n'.format(*indices))
+
+    @classmethod
+    def load(cls, filepath):
+        terrain_type = TERRAIN_UNKNOWN
+        with open(filepath, 'rb') as filehandle:
+            header = filehandle.read(4)
+            version = struct.unpack('<L', filehandle.read(4))[0]
+            if version == 3:
+                terrain_type = TERRAIN_XXW
+            elif version == 21:
+                terrain_type = TERRAIN_TER_1
+            elif version == 22:
+                terrain_type = TERRAIN_TER_2
+            else:
+                raise Exception('Unknown terrain version "{}".'.format(version))
+
+        if terrain_type == 3:
+            return Terrain03.load(filepath)
+        elif terrain_type == 21 or terrain_type == 22:
+            return Terrain2X.load(filepath)
+        else:
+            return None
+
+
+class Terrain2X(Terrain):
+    def __init__(self):
+        super(Terrain2X, self).__init__()
+
+        self.water_layers = [WaterLayer()] * 16
+
+    @classmethod
+    def load(cls, filepath):
+        '''Load a Terrain from _filepath_.'''
+        terrain = cls()
+
+        terrain.name = ntpath.basename(filepath)
+
+        with open(filepath, 'rb') as filehandle:
+            unpacker = Unpacker(filehandle)
+            parse = unpacker.parse
+            read = filehandle.read
+
+            read(4) # TERR header
+            terrain.format_version = parse(4, '<L')
+            terrain.extents = parse(2, '<hhhh')
+            read(4) # Unknown
+            for layer in terrain.texture_layers:
+                layer.tile_range = parse(4, '<f')
+            for layer in terrain.texture_layers:
+                layer.mapping = parse(1, '<B')
+            read(64) # Unknown
+            terrain.height_scale = parse(4, '<f')
+            terrain.grid_scale = parse(4, '<f')
+            read(4) # Unknown
+            terrain.size = parse(4, '<L')
+            read(4) # Unknown
+            read(1) # Unknown
+            for layer in terrain.texture_layers:
+                layer.color_map = read(32).strip(b'\x00')
+                layer.detail_map = read(32).strip(b'\x00')
+            for layer in terrain.water_layers:
+                layer.height = parse(4, '<ff')
+                layer.unknown = parse(4, '<LL')
+                layer.animation_velocity = parse(4, '<ff')
+                layer.animation_repeat = parse(4, '<ff')
+                layer.color = Color(*parse(1, '<BBBB'))
+                layer.color.recalculate()
+                layer.texture = read(32).strip(b'\x00')
+            read(254) # Unknown
+
+            # Height
+            heights = []
+            for _ in range(terrain.size * terrain.size):
+                heights.append(parse(2, '<h'))
+            terrain.heights = heights
+
+
+        return terrain
+
+
+class Terrain03(Terrain):
+    '''ZeroEngine (TCW branch) terrain.'''
+    def __init__(self):
+        super(Terrain03, self).__init__()
+        self.format_version = 3
 
     @classmethod
     def load(cls, filepath):
