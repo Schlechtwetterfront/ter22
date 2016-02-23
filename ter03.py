@@ -7,6 +7,7 @@
 import struct
 import ntpath
 import argparse
+import logging
 
 parser = argparse.ArgumentParser()
 parser.add_argument('input_file', help='Input file path.')
@@ -117,18 +118,19 @@ class Terrain(object):
         elif 'xxw' in output_type:
             self.save_as_xxw(filepath)
         else:
-            print('Invalid output type "{}".'.format(output_type))
+            raise Exception('Invalid output type "{}".'.format(output_type))
 
     def save_as_xxw(self, filepath):
         '''Save the terrain to _filepath_ in .xxw format.'''
-        print('.XXW saving is not supported yet.')
+        raise Exception('.XXW saving is not supported yet.')
 
     def save_as_ter(self, filepath):
         '''Save the terrain to _filepath_ in .ter format.'''
-        print('.TER saving is not supported yet.')
+        raise Exception('.TER saving is not supported yet.')
 
     def save_as_obj(self, filepath):
         '''Save the terrain to _filepath_ in .obj format.'''
+        logging.info('Saving terrain as .obj to "%s".', filepath)
         with open(filepath, 'w') as filehandle:
             write = filehandle.write
             write(MSG_TO_OBJ.format(self.name))
@@ -143,6 +145,7 @@ class Terrain(object):
                                column + (row_index + 1) * self.size + 1
                               )
                     write('f {} {} {} {}\n'.format(*indices))
+        logging.info('Finished saving terrain as .obj.')
 
     @classmethod
     def load(cls, filepath):
@@ -181,6 +184,8 @@ class Terrain2X(Terrain):
         terrain.name = ntpath.basename(filepath)
 
         with open(filepath, 'rb') as filehandle:
+            logging.info('Loading SWBF (v21/22) terrain from "%s".', filepath)
+
             unpacker = Unpacker(filehandle)
             parse = unpacker.parse
             read = filehandle.read
@@ -213,12 +218,21 @@ class Terrain2X(Terrain):
                 layer.texture = read(32).strip(b'\x00')
             read(254) # Unknown
 
+            logging.info('''Terrain header data:
+    size: %s
+    grid_scale: %s
+    height_scale: %s
+    extents: %s
+            ''', terrain.size, terrain.grid_scale, terrain.height_scale, terrain.extents)
+
             # Height
             heights = []
             for _ in range(terrain.size * terrain.size):
                 heights.append(parse(2, '<h'))
             terrain.heights = heights
+            logging.info('Loaded %s heights.', len(heights))
 
+        logging.info('Finished loading terrain.')
 
         return terrain
 
@@ -237,6 +251,8 @@ class Terrain03(Terrain):
         terrain.name = ntpath.basename(filepath)
 
         with open(filepath, 'rb') as filehandle:
+            logging.info('Loading TCW (v3) terrain from "%s".', filepath)
+
             unpacker = Unpacker(filehandle)
             parse = unpacker.parse
             read = filehandle.read
@@ -256,12 +272,21 @@ class Terrain03(Terrain):
                 layer.color_map = read(32).strip(b'\x00')
                 layer.detail_map = read(32).strip(b'\x00')
 
+            logging.info('''Terrain header data:
+    size: %s
+    grid_scale: %s
+    height_scale: %s
+    extents: %s
+            ''', terrain.size, terrain.grid_scale, terrain.height_scale, terrain.extents)
+
             # Heights
             heights = []
             for _ in range(terrain.size * terrain.size):
                 heights.append(parse(2, '<h'))
             terrain.heights = heights
+            logging.info('Loaded %s heights.', len(heights))
 
+        logging.info('Finished loading terrain.')
         return terrain
 
 
@@ -275,13 +300,20 @@ def convert():
     print('Converting from "{}" to "{}" with type "{}".'.format(input_file,
                                                                 output_file,
                                                                 output_type))
+    logging.info('Converting from "%s" to "%s" with type "%s".', input_file,
+                 output_file, output_type)
 
     terrain = Terrain.load(input_file)
     terrain.save(output_file, output_type)
     print('Finished converting.')
+    logging.info('Finished converting.')
 
 
 
 if __name__ == '__main__':
+    logging.basicConfig(format='%(levelname)s (%(lineno)d, %(funcName)s): %(message)s',
+                        filename='terrain.log',
+                        filemode='w',
+                        level=logging.DEBUG)
     convert()
 
