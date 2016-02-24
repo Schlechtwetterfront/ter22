@@ -1,7 +1,9 @@
 '''
-   ZeroEngine The Clone Wars Terrain.
-   Refer to schlechtwetterfront.github.io/ze_filetypes/xxw.html for more
-   information regarding the file format.
+   ZeroEngine Terrain.
+   Refer to
+       schlechtwetterfront.github.io/ze_filetypes/ter.html
+       schlechtwetterfront.github.io/ze_filetypes/xxw.html
+   for more information regarding the file format.
 '''
 
 import struct
@@ -11,15 +13,15 @@ import logging
 
 parser = argparse.ArgumentParser()
 parser.add_argument('input_file', help='Input file path.')
-parser.add_argument('output_file', help='Output file path.')
-parser.add_argument('output_type', help='Output file type (obj).')
+parser.add_argument('-output_file', help='Output file path.')
+parser.add_argument('-output_type', help='Output file type.', choices=['obj', 'ter', 'xxw'])
 
 
 
 TERRAIN_UNKNOWN = 0
 TERRAIN_XXW = 3
-TERRAIN_TER_1 = 21
-TERRAIN_TER_2 = 22
+TERRAIN_TER_221 = 21
+TERRAIN_TER_22 = 22
 
 MSG_TO_OBJ = '# Converted "{}" from ZeroEngine terrain with github.com/Schlechtwetterfront/ter22.\n\n'
 
@@ -56,7 +58,32 @@ class Color(object):
         self.g = self.g / 255
         self.b = self.b / 255
         self.a = self.a / 255
-    
+
+    def __repr__(self):
+        return 'Color({0.r}, {0.g}, {0.b}, {0.a})'.format(self)
+
+    def to_json(self):
+        return {'r': self.r, 'g': self.g, 'b': self.b, 'a': self.a}
+
+    @classmethod
+    def from_json(cls, data):
+        color = cls()
+        color.r = data['r']
+        color.g = data['g']
+        color.b = data['b']
+        color.a = data['a']
+        return color
+
+    @classmethod
+    def from_bgra(cls, b, g, r, a, recalculate=False):
+        color = cls()
+        color.r = r
+        color.g = g
+        color.b = b
+        color.a = a
+        if recalculate:
+            color.recalculate
+        return color
 
 
 class TextureLayer(object):
@@ -68,6 +95,24 @@ class TextureLayer(object):
 
         self.mapping = 0
 
+    def __repr__(self):
+        return 'TextureLayer(color: {}, detail: {}, mapping: {})'.format(self.color_map,
+                                                                         self.detail_map,
+                                                                         self.mapping)
+
+    def to_json(self):
+        return {'color_map': self.color_map,
+                'detail_map': self.detail_map,
+                'mapping': self.mapping}
+
+    @classmethod
+    def from_json(cls, data):
+        layer = cls()
+        layer.color_map = data['color_map']
+        layer.detail_map = data['detail_map']
+        layer.mapping = data['mapping']
+        return layer
+
 
 class WaterLayer(object):
     def __init__(self):
@@ -77,6 +122,25 @@ class WaterLayer(object):
         self.animation_repeat = .0, .0
         self.color = Color()
         self.texture = ''
+
+    def to_json(self):
+        return {'height': self.height,
+                'unknown': self.unknown,
+                'animation_velocity': self.animation_velocity,
+                'animation_repeat': self.animation_repeat,
+                'color': self.color.to_json(),
+                'texture': self.texture}
+
+    @classmethod
+    def from_json(cls, data):
+        layer = cls()
+        layer.height = data['height']
+        layer.unknown = data['unknown']
+        layer.animation_velocity = data['animation_velocity']
+        layer.animation_repeat = data['animation_repeat']
+        layer.color = Color.from_json(data['color'])
+        layer.texture = data['texture']
+        return layer
 
 
 class Terrain(object):
@@ -156,9 +220,9 @@ class Terrain(object):
             if version == 3:
                 terrain_type = TERRAIN_XXW
             elif version == 21:
-                terrain_type = TERRAIN_TER_1
+                terrain_type = TERRAIN_TER_221
             elif version == 22:
-                terrain_type = TERRAIN_TER_2
+                terrain_type = TERRAIN_TER_22
             else:
                 raise Exception('Unknown terrain version "{}".'.format(version))
 
@@ -175,6 +239,8 @@ class Terrain2X(Terrain):
         super(Terrain2X, self).__init__()
 
         self.water_layers = [WaterLayer()] * 16
+        self.colors = []
+        self.texture_layer_opacity = []
 
     @classmethod
     def load(cls, filepath):
@@ -204,7 +270,8 @@ class Terrain2X(Terrain):
             read(4) # Unknown
             terrain.size = parse(4, '<L')
             read(4) # Unknown
-            read(1) # Unknown
+            if terrain.format_version == TERRAIN_TER_22:
+                read(1) # Unknown
             for layer in terrain.texture_layers:
                 layer.color_map = read(32).strip(b'\x00')
                 layer.detail_map = read(32).strip(b'\x00')
@@ -213,8 +280,7 @@ class Terrain2X(Terrain):
                 layer.unknown = parse(4, '<LL')
                 layer.animation_velocity = parse(4, '<ff')
                 layer.animation_repeat = parse(4, '<ff')
-                layer.color = Color(*parse(1, '<BBBB'))
-                layer.color.recalculate()
+                layer.color = Color(*parse(1, '<BBBB'), recalculate=True)
                 layer.texture = read(32).strip(b'\x00')
             read(254) # Unknown
 
@@ -231,6 +297,24 @@ class Terrain2X(Terrain):
                 heights.append(parse(2, '<h'))
             terrain.heights = heights
             logging.info('Loaded %s heights.', len(heights))
+
+            # Colors
+            colors = []
+            for _ in range(terrain.size * terrain.size):
+                colors.append(Color.from_bgra(*parse(1, '<BBBB'), recalculate=True))
+            terrain.colors = colors
+
+            # Another 2 color blocks
+            for _ in range(terrain.size * terrain.size):
+                read(8)
+
+            # Texture layer opacity
+            opacity = []
+            for _ in range(terrain.size * terrain.size):
+                opacity.append(parse(1, '<BBBBBBBBBBBBBBBB'))
+            terrain.texture_layer_opacity = opacity
+
+            logging.info('Current offset: %s', filehandle.tell())
 
         logging.info('Finished loading terrain.')
 
@@ -303,10 +387,12 @@ def convert():
     logging.info('Converting from "%s" to "%s" with type "%s".', input_file,
                  output_file, output_type)
 
+
     terrain = Terrain.load(input_file)
-    terrain.save(output_file, output_type)
-    print('Finished converting.')
-    logging.info('Finished converting.')
+    if output_file:
+        terrain.save(output_file, output_type)
+        print('Finished converting.')
+        logging.info('Finished converting.')
 
 
 
