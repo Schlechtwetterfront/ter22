@@ -282,7 +282,7 @@ class Terrain2X(Terrain):
                 layer.animation_repeat = parse(4, '<ff')
                 layer.color = Color(*parse(1, '<BBBB'), recalculate=True)
                 layer.texture = read(32).strip(b'\x00')
-            read(254) # Unknown
+            read(524) # Unknown
 
             logging.info('''Terrain header data:
     size: %s
@@ -298,15 +298,21 @@ class Terrain2X(Terrain):
             terrain.heights = heights
             logging.info('Loaded %s heights.', len(heights))
 
+            logging.info('Offset after heights: %s', filehandle.tell())
+
             # Colors
             colors = []
             for _ in range(terrain.size * terrain.size):
                 colors.append(Color.from_bgra(*parse(1, '<BBBB'), recalculate=True))
             terrain.colors = colors
 
+            logging.info('Offset after first colors: %s', filehandle.tell())
+
             # Another 2 color blocks
             for _ in range(terrain.size * terrain.size):
                 read(8)
+
+            logging.info('Offset after all colors: %s', filehandle.tell())
 
             # Texture layer opacity
             opacity = []
@@ -314,7 +320,7 @@ class Terrain2X(Terrain):
                 opacity.append(parse(1, '<BBBBBBBBBBBBBBBB'))
             terrain.texture_layer_opacity = opacity
 
-            logging.info('Current offset: %s', filehandle.tell())
+            logging.info('Offset after textures: %s', filehandle.tell())
 
         logging.info('Finished loading terrain.')
 
