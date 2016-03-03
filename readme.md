@@ -1,12 +1,16 @@
 ter22
 =====
 
-Experimental ZeroEngine terrain parser.
+ZeroEngine (_Star Wars: The Clone Wars_, _Star Wars: Battlefront_ and _Star Wars: Battlefront II_) terrain parser.
 
 Usage
 =====
-To convert between formats:
-* **.XXW/.TER -> .OBJ** Convert height grid data to a 3D mesh with ``ter03.py [input_file] [output_file] [output_type]``, for example: ``ter03.py kashyyyk3.xxw kashyyyk3.obj obj``.
+
+To use this module [Python 3](https://www.python.org/downloads/) needs to be installed. This only works via commandline.  
+To get help about the command line arguments and commands use ``ter03.py -h``.
+
+Format
+===
 
 For file format information go here:
 * [**.TER (Star Wars: Battlefront series)**](http://schlechtwetterfront.github.io/ze_filetypes/ter.html)

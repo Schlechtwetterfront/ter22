@@ -3,12 +3,12 @@ import logging
 
 
 PRINT_FIELDS = [
-	'ter_ver',
-	'map_extents',
-	'unknown',
-	'map_height',
-	'grid_size',
-	'map_size',
+    'ter_ver',
+    'map_extents',
+    'unknown',
+    'map_height',
+    'grid_size',
+    'map_size',
 ]
 
 
@@ -16,11 +16,11 @@ PRINT_FIELDS = [
 
 
 def load(filename):
-	terrain = ter22.Terrain.load(filename)
+    terrain = ter22.Terrain.load(filename)
 
-	logging.info('\n---\n{}'.format(filename))
-	for field in PRINT_FIELDS:
-		logging.info('{}: {}'.format(field, getattr(terrain, field)))
+    logging.info('\n---\n{}'.format(filename))
+    for field in PRINT_FIELDS:
+        logging.info('{}: {}'.format(field, getattr(terrain, field)))
 
 
 load('kashyyyk3.xxw')

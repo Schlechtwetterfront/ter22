@@ -20,7 +20,7 @@ parser.add_argument('-output_type', help='Output file type.', choices=['obj', 't
 
 TERRAIN_UNKNOWN = 0
 TERRAIN_XXW = 3
-TERRAIN_TER_221 = 21
+TERRAIN_TER_21 = 21
 TERRAIN_TER_22 = 22
 
 MSG_TO_OBJ = '# Converted "{}" from ZeroEngine terrain with github.com/Schlechtwetterfront/ter22.\n\n'
@@ -220,7 +220,7 @@ class Terrain(object):
             if version == 3:
                 terrain_type = TERRAIN_XXW
             elif version == 21:
-                terrain_type = TERRAIN_TER_221
+                terrain_type = TERRAIN_TER_21
             elif version == 22:
                 terrain_type = TERRAIN_TER_22
             else:
@@ -387,15 +387,19 @@ def convert():
     output_file = arguments.output_file
     output_type = arguments.output_type
 
-    print('Converting from "{}" to "{}" with type "{}".'.format(input_file,
-                                                                output_file,
-                                                                output_type))
-    logging.info('Converting from "%s" to "%s" with type "%s".', input_file,
-                 output_file, output_type)
-
+    print('Loading "{}".'.format(input_file))
+    logging.info('Loading "%s".', input_file)
 
     terrain = Terrain.load(input_file)
+
+    print('Finished loading.')
+    logging.info('Finished loading.')
     if output_file:
+        print('Converting from "{}" to "{}" with type "{}".'.format(input_file,
+                                                                    output_file,
+                                                                    output_type))
+        logging.info('Converting from "%s" to "%s" with type "%s".', input_file,
+                     output_file, output_type)
         terrain.save(output_file, output_type)
         print('Finished converting.')
         logging.info('Finished converting.')
