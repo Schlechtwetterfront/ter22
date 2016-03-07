@@ -53,3 +53,16 @@ TER 524 bytes unknown offset 2294
 - 8523580
    656709
 / 2 = 328354,5
+
+
+GEO1:
+    NUMBER OF BYTES AT END: 3756 (256)
+
+HOTH:
+    8712
+
+
+AFTER TEXTURES:
+    ? from 1968901
+    ? from 1985285
+        differences with water
