@@ -34,15 +34,6 @@ map size = 512
 4 - 1/2: 229376
 
 
-
-- - - -
-- - - -
-- - - -
-- - - -
-
-length / depth
-
-
 TER 524 bytes unknown offset 2294
 
 

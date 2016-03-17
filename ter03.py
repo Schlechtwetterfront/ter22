@@ -363,10 +363,10 @@ class Terrain03(Terrain):
                 layer.detail_map = read(32).strip(b'\x00')
 
             logging.info('''Terrain header data:
-    size: %s
-    grid_scale: %s
+            size: %s
+      grid_scale: %s
     height_scale: %s
-    extents: %s
+         extents: %s
             ''', terrain.size, terrain.grid_scale, terrain.height_scale, terrain.extents)
 
             # Heights
@@ -374,7 +374,7 @@ class Terrain03(Terrain):
             for _ in range(terrain.size * terrain.size):
                 heights.append(parse(2, '<h'))
             terrain.heights = heights
-            logging.info('Loaded %s heights.', len(heights))
+            logging.info('Loaded %s heights. Now at offset %s', len(heights), filehandle.tell())
 
         logging.info('Finished loading terrain.')
         return terrain
