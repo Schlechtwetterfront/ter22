@@ -57,3 +57,11 @@ AFTER TEXTURES:
     ? from 1968901
     ? from 1985285
         differences with water
+
+
+XXW xV4 stuff:
+1st occurrence: 133254
+	not colors
+	maybe texture but unlikely
+2nd			  : 657546
+	difference: 524292

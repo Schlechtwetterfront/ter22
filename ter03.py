@@ -96,9 +96,10 @@ class TextureLayer(object):
         self.mapping = 0
 
     def __repr__(self):
-        return 'TextureLayer(color: {}, detail: {}, mapping: {})'.format(self.color_map,
-                                                                         self.detail_map,
-                                                                         self.mapping)
+        return 'TextureLayer(color: {}, detail: {}, tile: {}, mapping: {})'.format(self.color_map,
+                                                                                   self.detail_map,
+                                                                                   self.tile_range,
+                                                                                   self.mapping)
 
     def to_json(self):
         return {'color_map': self.color_map,
@@ -155,7 +156,7 @@ class Terrain(object):
         self.height_scale = 1.0
         self.extents = (-128, 128, -128, 128)
         self.tile_ranges = [1.0] * 16
-        self.texture_layers = [TextureLayer()] * 16
+        self.texture_layers = [TextureLayer() for _ in range(16)]
 
         self.heights = []
 
@@ -238,7 +239,7 @@ class Terrain2X(Terrain):
     def __init__(self):
         super(Terrain2X, self).__init__()
 
-        self.water_layers = [WaterLayer()] * 16
+        self.water_layers = [WaterLayer() for _ in range(16)]
         self.colors = []
         self.texture_layer_opacity = []
 
@@ -338,6 +339,7 @@ class Terrain03(Terrain):
         '''Load a Terrain from _filepath_.'''
         terrain = cls()
 
+
         terrain.name = ntpath.basename(filepath)
 
         with open(filepath, 'rb') as filehandle:
@@ -369,12 +371,27 @@ class Terrain03(Terrain):
          extents: %s
             ''', terrain.size, terrain.grid_scale, terrain.height_scale, terrain.extents)
 
+            logging.info('Texture layers:\n\t%s', '\n\t'.join([str(layer) for layer in terrain.texture_layers]))
+
             # Heights
             heights = []
             for _ in range(terrain.size * terrain.size):
                 heights.append(parse(2, '<h'))
             terrain.heights = heights
             logging.info('Loaded %s heights. Now at offset %s', len(heights), filehandle.tell())
+
+            first_xv4 = 133250
+            second_xv4 = 657542
+            
+            found_xv4 = False
+            unpack_string = '<HH'
+            while True:
+                data = read(4)
+                if data.startswith(b'xV4'):
+                    found_xv4 = not found_xv4
+                    logging.info('Data: %s at %s', data, filehandle.tell())
+                elif found_xv4 and data != b'\x00\x00\x00\x00':
+                    logging.info('Data: %s (%s) at %s', struct.unpack(unpack_string, data), data, filehandle.tell())
 
         logging.info('Finished loading terrain.')
         return terrain
