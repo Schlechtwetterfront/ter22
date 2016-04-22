@@ -65,3 +65,7 @@ XXW xV4 stuff:
 	maybe texture but unlikely
 2nd			  : 657546
 	difference: 524292
+
+
+SWBF 2
+alphas start at: 658181

@@ -309,9 +309,9 @@ class Terrain2X(Terrain):
 
             logging.info('Offset after first colors: %s', filehandle.tell())
 
-            # Another 2 color blocks
+            # Another color block
             for _ in range(terrain.size * terrain.size):
-                read(8)
+                read(4)
 
             logging.info('Offset after all colors: %s', filehandle.tell())
 
@@ -322,6 +322,13 @@ class Terrain2X(Terrain):
             terrain.texture_layer_opacity = opacity
 
             logging.info('Offset after textures: %s', filehandle.tell())
+
+            read(terrain.size * terrain.size // 2)
+            logging.info('Offset after most things: %s', filehandle.tell())
+            read(terrain.size * terrain.size // 2)
+            logging.info('Offset after most things: %s', filehandle.tell())
+            logging.info(len(read(100)))
+            logging.info('Offset after everything: %s', filehandle.tell())
 
         logging.info('Finished loading terrain.')
 
